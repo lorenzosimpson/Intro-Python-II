@@ -53,22 +53,52 @@ print(player_1)
 #
 # If the user enters "q", quit the game.
 
+# list of valid moves
+valid_moves = ['n', 's', 'e', 'w', 'q']
+
 while True:
     # print current room name
     current_room = player_1.room
-    print(current_room)
-    # print desc
     desc = current_room.description
-    print(desc)
+    print(f"Hey, {player_1.name}. You're currently in \n *** {current_room.name.upper()} *** \n")
+    # print desc
     # input
     next_move = input('~~ Where to? ')
-
+    error = f'\n*** Aww shucks! *** \n*** Nothing there! ***\n'
+   
+    if next_move in valid_moves:
+        # NORTH
+        sleep(1)
+        if next_move == 'n':
+            if current_room.n_to == None:
+                print(error)
+            else:
+                player_1.room = current_room.n_to
+        # SOUTH
+        elif next_move == 's':
+            if current_room.s_to == None:
+                print(error)
+            else:
+                player_1.room = current_room.s_to
+        # EAST
+        elif next_move == 'e':
+            if current_room.e_to == None:
+                print(error)
+            else:
+                player_1.room = current_room.e_to
+        # WEST
+        elif next_move == 'w':
+            if current_room.w_to == None:
+                print(error)
+            else:
+                player_1.room = current_room.w_to    
     #if user enters q, quit game
-    if next_move == 'q':
-        print('Exiting...')
-        sleep(2)
-        print('Goodbye!')
-        sleep(0.5)
-        exit()
-
-parse_cmd(player_1)
+        elif next_move == 'q':
+            print('Exiting...')
+            sleep(2)
+            print('Goodbye!')
+            sleep(0.5)
+            exit()
+    # invalid move
+    else:
+        print('Invalid move, expected n, s, e or w')

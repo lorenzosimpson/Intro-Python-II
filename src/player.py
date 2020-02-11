@@ -5,4 +5,4 @@ class Player:
         self.name = name
         self.room = room
     def __str__(self):
-        return f"Name: {self.name} Current Room: {self.room}"
+        return f"\nName: {self.name} \n{self.room}"
