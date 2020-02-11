@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from time import sleep
 
 # Declare all the rooms
 
@@ -39,7 +40,7 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player_1 = Player('Lorenzo', 'outside')
+player_1 = Player('Lorenzo', room['outside'])
 print(player_1)
 # Write a loop that:
 #
@@ -52,4 +53,22 @@ print(player_1)
 #
 # If the user enters "q", quit the game.
 
-#def parse_cmd():
+while True:
+    # print current room name
+    current_room = player_1.room
+    print(current_room)
+    # print desc
+    desc = current_room.description
+    print(desc)
+    # input
+    next_move = input('~~ Where to? ')
+
+    #if user enters q, quit game
+    if next_move == 'q':
+        print('Exiting...')
+        sleep(2)
+        print('Goodbye!')
+        sleep(0.5)
+        exit()
+
+parse_cmd(player_1)
