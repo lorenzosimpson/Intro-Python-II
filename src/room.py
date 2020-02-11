@@ -8,5 +8,7 @@ class Room:
         self.s_to = None
         self.e_to = None
         self.w_to = None
+        self.room_items = []
     def __str__(self):
-        return f"Room name: {self.name} \nRoom description: {self.description}\n"
+        return f"Room name: {self.name} \nRoom description: {self.description}\n{self.room_items}"
+

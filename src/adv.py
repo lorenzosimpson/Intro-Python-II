@@ -36,15 +36,26 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+
+# declare items
+
+item = {
+    'coin': Item('coin', 'money money money'),
+    'sword': Item('sword', 'the sword in the stone'),
+    'watch': Item('watch', 'tells the time'),
+    'chest': Item('chest', 'a treasure chest')
+}
+
+# declare player
+player_1 = Player('Lorenzo', room['outside'])
+
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player_1 = Player('Lorenzo', room['outside'])
 
-foo = Item('foo', 'blah blah blah')
-print(foo)
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -60,11 +71,11 @@ print(foo)
 valid_moves = ['n', 's', 'e', 'w', 'q']
 
 while True:
-    # print current room name
+    # set current room and description
     current_room = player_1.room
     desc = current_room.description
-    print(f"Hey, {player_1.name}. You're currently in \n *** {current_room.name.upper()} *** \n")
-    # print desc
+    print(f"Hey, {player_1.name}. You're currently in \n *** {current_room.name.upper()} *** \n Room items: {current_room.room_items}")
+
     # input
     next_move = input('~~ Where to? ')
     error = f'\n*** Aww shucks! *** \n*** Nothing there! ***\n'
