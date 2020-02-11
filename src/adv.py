@@ -46,15 +46,16 @@ item = {
     'chest': Item('chest', 'a treasure chest')
 }
 
-# declare player
-player_1 = Player('Lorenzo', room['outside'])
+# link items to rooms
+room['outside'].room_items = [item['coin'], item['sword']]
+
 
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
-
+player_1 = Player('Lorenzo', room['outside'])
 
 # Write a loop that:
 #
@@ -77,37 +78,37 @@ while True:
     print(f"Hey, {player_1.name}. You're currently in \n *** {current_room.name.upper()} *** \n Room items: {current_room.room_items}")
 
     # input
-    next_move = input('~~ Where to? ')
+    choice = input('~~ What do you want to do? You can: \nMove: (n, s, e, w) ')
     error = f'\n*** Aww shucks! *** \n*** Nothing there! ***\n'
    
-    if next_move in valid_moves:
+    if choice in valid_moves:
         # NORTH
         sleep(1)
-        if next_move == 'n':
+        if choice == 'n':
             if current_room.n_to == None:
                 print(error)
             else:
                 player_1.room = current_room.n_to
         # SOUTH
-        elif next_move == 's':
+        elif choice == 's':
             if current_room.s_to == None:
                 print(error)
             else:
                 player_1.room = current_room.s_to
         # EAST
-        elif next_move == 'e':
+        elif choice == 'e':
             if current_room.e_to == None:
                 print(error)
             else:
                 player_1.room = current_room.e_to
         # WEST
-        elif next_move == 'w':
+        elif choice == 'w':
             if current_room.w_to == None:
                 print(error)
             else:
                 player_1.room = current_room.w_to    
     #if user enters q, quit game
-        elif next_move == 'q':
+        elif choice == 'q':
             print('Exiting...')
             sleep(2)
             print('Goodbye!')
