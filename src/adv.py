@@ -5,7 +5,6 @@ from item import Item
 from time import sleep
 
 # Declare all the rooms
-
 room = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons"),
@@ -27,7 +26,6 @@ earlier adventurers. The only exit is to the south."""),
 
 
 # Link rooms together
-
 room['outside'].n_to = room['foyer']
 room['foyer'].s_to = room['outside']
 room['foyer'].n_to = room['overlook']
@@ -39,7 +37,6 @@ room['treasure'].s_to = room['narrow']
 
 
 # declare items
-
 item = {
     'coin': Item('coin', 'money money money'),
     'sword': Item('sword', 'the sword in the stone'),
@@ -50,7 +47,6 @@ item = {
 }
 
 # link items to rooms
-
 room['outside'].room_items = [item['coin'], item['sword']]
 room['foyer'].room_items = [item['watch']]
 room['overlook'].room_items = [item['binoculars']]
@@ -58,34 +54,17 @@ room['narrow'].room_items = [item['flashlight']]
 
 
 # Make a new player object that is currently in the 'outside' room.
-
 player_1 = Player('Lorenzo', room['outside'])
 
 # Assign the player's starting inventory
-
 player_1.inventory = [item['watch']]
 
 
-
-
-
-
-# Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
-
 # list of valid moves
-
 valid_cmd = ['n', 's', 'e', 'w', 'q']
 
-# functions
+
+        #--- functions ---
 
 # prints player's inventory
 def player_inventory():
@@ -103,9 +82,24 @@ def room_items():
 
 def greet_player():
     print(f'Welcome, {player_1.name}!\nLoading game...\n\n')
+greet_player() # invoke upon loading the game, not in every loop
 
-greet_player()
-# Game logic
+
+
+
+# Write a loop that:
+#
+# * Prints the current room name
+# * Prints the current description (the textwrap module might be useful here).
+# * Waits for user input and decides what to do.
+#
+# If the user enters a cardinal direction, attempt to move to the room there.
+# Print an error message if the movement isn't allowed.
+#
+# If the user enters "q", quit the game.
+
+
+# ------------------Game logic --------------------
 sleep(2)
 while True:
     # set current room and description
@@ -117,7 +111,7 @@ while True:
     room_items()
 
     # input
-    choice = input('~~ What do you want to do? You can: \nMove (n, s, e, w), See your inventory (i) or quit (q): ')
+    choice = input('~~ What do you want to do? You can: \nMove (n, s, e, w), See your inventory (i), take an item (take item_name), drop item (drop item_name) or quit (q): ')
     error = f'\n*** Aww shucks! *** \n*** Nothing there! ***\n'
     no_item = 'That item is not in this room!'
    
