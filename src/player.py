@@ -4,5 +4,13 @@ class Player:
     def __init__(self, name, room):
         self.name = name
         self.room = room
+        self.inventory = []
+
     def __str__(self):
         return f"\nName: {self.name} \n{self.room}"
+
+    def add_to_inventory(self, item):
+        self.inventory.append(item)
+    
+    def remove_from_inventory(self, item):
+        self.inventory.remove(item)

@@ -1,3 +1,4 @@
+import sys
 from room import Room
 from player import Player
 from item import Item
@@ -43,19 +44,31 @@ item = {
     'coin': Item('coin', 'money money money'),
     'sword': Item('sword', 'the sword in the stone'),
     'watch': Item('watch', 'tells the time'),
-    'chest': Item('chest', 'a treasure chest')
+    'chest': Item('chest', 'a treasure chest'),
+    'binoculars': Item('binoculars', 'to see far and wide'),
+    'flashlight': Item('flashlight', 'to brighten the darkness')
 }
 
 # link items to rooms
+
 room['outside'].room_items = [item['coin'], item['sword']]
+room['foyer'].room_items = [item['watch']]
+room['overlook'].room_items = [item['binoculars']]
+room['narrow'].room_items = [item['flashlight']]
 
-
-#
-# Main
-#
 
 # Make a new player object that is currently in the 'outside' room.
+
 player_1 = Player('Lorenzo', room['outside'])
+
+# Assign the player's starting inventory
+
+player_1.inventory = [item['watch']]
+
+
+
+
+
 
 # Write a loop that:
 #
@@ -69,23 +82,37 @@ player_1 = Player('Lorenzo', room['outside'])
 # If the user enters "q", quit the game.
 
 # list of valid moves
-valid_moves = ['n', 's', 'e', 'w', 'q']
+
+valid_cmd = ['n', 's', 'e', 'w', 'q']
 
 while True:
     # set current room and description
     current_room = player_1.room
     desc = current_room.description
+    inventory = player_1.inventory
+
+    def player_inventory():
+        for i in inventory:
+            print(i)
+    # print each item in the room
     def room_items():
-        print('Room items:')
         for i in current_room.room_items:
             print(i)
+    
     print(f"Hey, {player_1.name}. You're currently in \n *** {current_room.name.upper()} *** \n")
+    print('You currently have the following items in your inventory:')
+    player_inventory()
+    print('This room has the following items:')
     room_items()
+
     # input
     choice = input('~~ What do you want to do? You can: \nMove: (n, s, e, w) ')
     error = f'\n*** Aww shucks! *** \n*** Nothing there! ***\n'
+    no_item = 'That item is not in this room!'
    
-    if choice in valid_moves:
+    print('-----------------------------------------------')
+
+    if choice in valid_cmd:
         # NORTH
         sleep(1)
         if choice == 'n':
@@ -118,6 +145,31 @@ while True:
             print('Goodbye!')
             sleep(0.5)
             exit()
+    #elif choice has 3 args
+        # if arg 2 is take:
+            # call remove method on room
+            # add to player inventory 
+        # else:
+            # call add method on room
+            # remove from inventory
+    elif len(choice.split(' ')) == 2:
+        action = choice.split(' ')[0]
+        chosen_item = choice.split(' ')[1]
+
+        if action == 'take':
+            if item[chosen_item] in current_room.room_items:
+                current_room.remove_item(item[chosen_item])
+                player_1.add_to_inventory(item[chosen_item])
+            else:
+                print(no_item)
+    
+        elif action == 'drop':
+            if item[chosen_item] in player_1.inventory:
+                current_room.add_item(item[chosen_item])
+                player_1.remove_from_inventory(item[chosen_item])
+            else:
+                print(no_item)
     # invalid move
     else:
         print('Invalid move, expected n, s, e or w')
+    

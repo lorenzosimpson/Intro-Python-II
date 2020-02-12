@@ -12,8 +12,8 @@ class Room:
     def __str__(self):
         return f"Room name: {self.name} \nRoom description: {self.description}\n{self.room_items}"
     
-    def add_item(item):
+    def add_item(self, item):
         self.room_items.append(item)
 
-    # def delete_item(item):
-    #     self.room_items.remove(item)
+    def remove_item(self, item):
+        self.room_items.remove(item)
