@@ -75,8 +75,12 @@ while True:
     # set current room and description
     current_room = player_1.room
     desc = current_room.description
-    print(f"Hey, {player_1.name}. You're currently in \n *** {current_room.name.upper()} *** \n Room items: {current_room.room_items}")
-
+    def room_items():
+        print('Room items:')
+        for i in current_room.room_items:
+            print(i)
+    print(f"Hey, {player_1.name}. You're currently in \n *** {current_room.name.upper()} *** \n")
+    room_items()
     # input
     choice = input('~~ What do you want to do? You can: \nMove: (n, s, e, w) ')
     error = f'\n*** Aww shucks! *** \n*** Nothing there! ***\n'
