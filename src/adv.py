@@ -85,54 +85,66 @@ player_1.inventory = [item['watch']]
 
 valid_cmd = ['n', 's', 'e', 'w', 'q']
 
+# functions
+
+# prints player's inventory
+def player_inventory():
+        print('Loading inventory...')
+        sleep(0.5)
+        print('-- Your inventory --')
+        for i in inventory:
+            print(f'- {i}')
+
+# print each item in the room
+def room_items():
+    print('This room has the following items for you to take:')
+    for i in current_room.room_items:
+        print(i)
+
+def greet_player():
+    print(f'Welcome, {player_1.name}!\nLoading game...\n\n')
+
+greet_player()
+# Game logic
+sleep(2)
 while True:
     # set current room and description
     current_room = player_1.room
     desc = current_room.description
     inventory = player_1.inventory
-
-    def player_inventory():
-        for i in inventory:
-            print(i)
-    # print each item in the room
-    def room_items():
-        for i in current_room.room_items:
-            print(i)
     
-    print(f"Hey, {player_1.name}. You're currently in \n *** {current_room.name.upper()} *** \n")
-    print('You currently have the following items in your inventory:')
-    player_inventory()
-    print('This room has the following items:')
+    print(f"You're currently in *** {current_room.name.upper()} ***\n\n\n")
     room_items()
 
     # input
-    choice = input('~~ What do you want to do? You can: \nMove: (n, s, e, w) ')
+    choice = input('~~ What do you want to do? You can: \nMove (n, s, e, w), See your inventory (i) or quit (q): ')
     error = f'\n*** Aww shucks! *** \n*** Nothing there! ***\n'
     no_item = 'That item is not in this room!'
    
     print('-----------------------------------------------')
 
     if choice in valid_cmd:
-        # NORTH
+        # player chooses NORTH
         sleep(1)
         if choice == 'n':
+            # if the room has nowhere to go in that direction
             if current_room.n_to == None:
                 print(error)
             else:
                 player_1.room = current_room.n_to
-        # SOUTH
+        # player chooses SOUTH
         elif choice == 's':
             if current_room.s_to == None:
                 print(error)
             else:
                 player_1.room = current_room.s_to
-        # EAST
+        # player chooses EAST
         elif choice == 'e':
             if current_room.e_to == None:
                 print(error)
             else:
                 player_1.room = current_room.e_to
-        # WEST
+        # player chooses WEST
         elif choice == 'w':
             if current_room.w_to == None:
                 print(error)
@@ -145,30 +157,33 @@ while True:
             print('Goodbye!')
             sleep(0.5)
             exit()
-    #elif choice has 3 args
-        # if arg 2 is take:
-            # call remove method on room
-            # add to player inventory 
-        # else:
-            # call add method on room
-            # remove from inventory
+
+    # if the player supplies two cmd words [action] [item]
     elif len(choice.split(' ')) == 2:
+        sleep(1)
         action = choice.split(' ')[0]
         chosen_item = choice.split(' ')[1]
 
-        if action == 'take':
+        if action == 'take' or action == 'get':
+            # if the room has that item
             if item[chosen_item] in current_room.room_items:
                 current_room.remove_item(item[chosen_item])
                 player_1.add_to_inventory(item[chosen_item])
+                item[chosen_item].on_take()
             else:
                 print(no_item)
     
         elif action == 'drop':
+            # if the player has that item
             if item[chosen_item] in player_1.inventory:
                 current_room.add_item(item[chosen_item])
                 player_1.remove_from_inventory(item[chosen_item])
+                item[chosen_item].on_drop()
             else:
                 print(no_item)
+    # print player inventory
+    elif choice == 'i' or choice == 'inventory':
+        player_inventory()
     # invalid move
     else:
         print('Invalid move, expected n, s, e or w')
