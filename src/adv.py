@@ -52,92 +52,45 @@ room['foyer'].room_items = [item['watch']]
 room['overlook'].room_items = [item['binoculars']]
 room['narrow'].room_items = [item['flashlight']]
 
-
+print('\n\n\n\n\n\n\n')
 # Make a new player object that is currently in the 'outside' room.
-player = Player('Lorenzo', room['outside'])
+player = Player(input("Hi! What's your name?"), room['outside'])
+print(f'Hello, {player.name}')
+sleep(2)
 
 # Assign the player's starting inventory
 player.inventory = [item['watch']]
 
-
 # list of valid moves
-valid_cmd = ['n', 's', 'e', 'w', 'q']
-
-
-
-def greet_player():
-    print(f'Welcome, {player.name}!\nLoading game...\n\n')
-greet_player() # invoke upon loading the game, not in every loop
-
-
-
-
-# Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
+valid_direction = ['n', 's', 'e', 'w']
 
 
 # ------------------Game logic --------------------
-sleep(2)
+
 while True:
-    # set current room and description
+    # set current room, description, inventory
     current_room = player.room
     desc = current_room.description
     inventory = player.inventory
-    
-    print(f"You're currently in *** {current_room.name.upper()} ***\n\n\n")
-    current_room.print_room_items()
+    print('\n\n\n\n\n\n\n')
+    sleep(1)
+    print(f"You're in *** \n\n\n              {current_room.name.upper()} ***\n\n\n")
+    sleep(0.5)
+    player.room.print_room_items()
+
+    sleep(1)
     # input
-    choice = input('~~ What do you want to do? You can: \nMove (n, s, e, w), See your inventory (i), take an item (take item_name), drop item (drop item_name) or quit (q): ')
-    error = f'\n*** Aww shucks! *** \n*** Nothing there! ***\n'
-    no_item = 'That item is not in this room!'
+    choice = input('~~ What do you want to do? You can:\n \nMove (n, s, e, w)\n \nSee your inventory (i)\n \nTake an item (take item_name)\n \nDrop item (drop item_name)\n \nQuit (q): ').lower()
+    no_item = '\nThat item is not in this room!\n'
    
-    print('-----------------------------------------------')
+    
 
-    if choice in valid_cmd:
-        # player chooses NORTH
+    if choice in valid_direction:
         sleep(1)
-        if choice == 'n':
-            # if the room has nowhere to go in that direction
-            if current_room.n_to == None:
-                print(error)
-            else:
-                player.room = current_room.n_to
-        # player chooses SOUTH
-        elif choice == 's':
-            if current_room.s_to == None:
-                print(error)
-            else:
-                player.room = current_room.s_to
-        # player chooses EAST
-        elif choice == 'e':
-            if current_room.e_to == None:
-                print(error)
-            else:
-                player.room = current_room.e_to
-        # player chooses WEST
-        elif choice == 'w':
-            if current_room.w_to == None:
-                print(error)
-            else:
-                player.room = current_room.w_to    
-    #if user enters q, quit game
-        elif choice == 'q':
-            print('Exiting...')
-            sleep(2)
-            print('Goodbye!')
-            sleep(0.5)
-            exit()
+        player.travel(choice)
 
-    # if the player supplies two cmd words [action] [item]
-    elif len(choice.split(' ')) == 2:
+    # elif the player supplies two cmd words [action] [item]
+    elif len(choice.split(' ')) == 2: 
         sleep(1)
         action = choice.split(' ')[0]
         chosen_item = choice.split(' ')[1]
@@ -161,7 +114,15 @@ while True:
                 print(no_item)
     # print player inventory
     elif choice == 'i' or choice == 'inventory':
-        player.player_inventory()
+        player.show_inventory()
+    
+    # Quit the game
+    elif choice == 'q':
+        print('Exiting...')
+        sleep(2)
+        print('Goodbye!')
+        sleep(0.5)
+        exit()
     # invalid move
     else:
         print('Invalid move, expected n, s, e or w')

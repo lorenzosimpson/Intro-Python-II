@@ -21,4 +21,4 @@ class Room:
     def print_room_items(self):
         print('This room has the following items for you to take:')
         for i in self.room_items:
-            print(i)
+            print(f'\n             {i}\n')
