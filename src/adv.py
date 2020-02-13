@@ -54,7 +54,7 @@ room['narrow'].room_items = [item['flashlight']]
 
 print('\n\n\n\n\n\n\n')
 # Make a new player object that is currently in the 'outside' room.
-player = Player(input("Hi! What's your name?"), room['outside'])
+player = Player(input("Hi! What's your name? "), room['outside'])
 print(f'Hello, {player.name}')
 sleep(2)
 
@@ -74,13 +74,13 @@ while True:
     inventory = player.inventory
     print('\n\n\n\n\n\n\n')
     sleep(1)
-    print(f"You're in *** \n\n\n              {current_room.name.upper()} ***\n\n\n")
+    print(f"You're in  \n\n\n           *** {current_room.name.upper()} ***\n\n\n")
     sleep(0.5)
     player.room.print_room_items()
 
     sleep(1)
     # input
-    choice = input('~~ What do you want to do? You can:\n \nMove (n, s, e, w)\n \nSee your inventory (i)\n \nTake an item (take item_name)\n \nDrop item (drop item_name)\n \nQuit (q): ').lower()
+    choice = input('~~ What do you want to do? You can:\n \n          Move (n, s, e, w)\n \n          See your inventory (i)\n \n          Take an item (take item_name)\n \n          Drop item (drop item_name)\n \n          Quit (q):\n          ').lower()
     no_item = '\nThat item is not in this room!\n'
    
     
