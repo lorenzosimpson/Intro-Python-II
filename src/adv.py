@@ -96,7 +96,7 @@ while True:
         chosen_item = choice.split(' ')[1]
 
         if action == 'take' or action == 'get':
-            # if the room has that item
+            # if the room has that item, add it to inventory and remove it from the room
             if item[chosen_item] in current_room.room_items:
                 current_room.remove_item(item[chosen_item])
                 player.add_to_inventory(item[chosen_item])
@@ -108,11 +108,14 @@ while True:
             # if the player has that item
             if item[chosen_item] in player.inventory:
                 if item[chosen_item].name == 'flashlight':
+                    # confirm that they want to drop the flashlight
                     drop_flashlight = input('Are you sure you want to drop your light source: ').lower()
+                    # if they confirm, they lose the game
                     if drop_flashlight in ['y', 'yes']:
                         print('You dropped your light source! You lose!')
                         sleep(2)
                         exit()
+                    # do nothing
                     else:
                         pass
                 else:
