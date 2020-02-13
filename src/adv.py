@@ -107,9 +107,18 @@ while True:
         elif action == 'drop':
             # if the player has that item
             if item[chosen_item] in player.inventory:
-                current_room.add_item(item[chosen_item])
-                player.remove_from_inventory(item[chosen_item])
-                item[chosen_item].on_drop()
+                if item[chosen_item].name == 'flashlight':
+                    drop_flashlight = input('Are you sure you want to drop your light source: ').lower()
+                    if drop_flashlight in ['y', 'yes']:
+                        print('You dropped your light source! You lose!')
+                        sleep(2)
+                        exit()
+                    else:
+                        pass
+                else:
+                    current_room.add_item(item[chosen_item])
+                    player.remove_from_inventory(item[chosen_item])
+                    item[chosen_item].on_drop()
             else:
                 print(no_item)
     # print player inventory
