@@ -54,34 +54,19 @@ room['narrow'].room_items = [item['flashlight']]
 
 
 # Make a new player object that is currently in the 'outside' room.
-player_1 = Player('Lorenzo', room['outside'])
+player = Player('Lorenzo', room['outside'])
 
 # Assign the player's starting inventory
-player_1.inventory = [item['watch']]
+player.inventory = [item['watch']]
 
 
 # list of valid moves
 valid_cmd = ['n', 's', 'e', 'w', 'q']
 
 
-        #--- functions ---
-
-# prints player's inventory
-def player_inventory():
-        print('Loading inventory...')
-        sleep(0.5)
-        print('-- Your inventory --')
-        for i in inventory:
-            print(f'- {i}')
-
-# print each item in the room
-def room_items():
-    print('This room has the following items for you to take:')
-    for i in current_room.room_items:
-        print(i)
 
 def greet_player():
-    print(f'Welcome, {player_1.name}!\nLoading game...\n\n')
+    print(f'Welcome, {player.name}!\nLoading game...\n\n')
 greet_player() # invoke upon loading the game, not in every loop
 
 
@@ -103,13 +88,12 @@ greet_player() # invoke upon loading the game, not in every loop
 sleep(2)
 while True:
     # set current room and description
-    current_room = player_1.room
+    current_room = player.room
     desc = current_room.description
-    inventory = player_1.inventory
+    inventory = player.inventory
     
     print(f"You're currently in *** {current_room.name.upper()} ***\n\n\n")
-    room_items()
-
+    current_room.print_room_items()
     # input
     choice = input('~~ What do you want to do? You can: \nMove (n, s, e, w), See your inventory (i), take an item (take item_name), drop item (drop item_name) or quit (q): ')
     error = f'\n*** Aww shucks! *** \n*** Nothing there! ***\n'
@@ -125,25 +109,25 @@ while True:
             if current_room.n_to == None:
                 print(error)
             else:
-                player_1.room = current_room.n_to
+                player.room = current_room.n_to
         # player chooses SOUTH
         elif choice == 's':
             if current_room.s_to == None:
                 print(error)
             else:
-                player_1.room = current_room.s_to
+                player.room = current_room.s_to
         # player chooses EAST
         elif choice == 'e':
             if current_room.e_to == None:
                 print(error)
             else:
-                player_1.room = current_room.e_to
+                player.room = current_room.e_to
         # player chooses WEST
         elif choice == 'w':
             if current_room.w_to == None:
                 print(error)
             else:
-                player_1.room = current_room.w_to    
+                player.room = current_room.w_to    
     #if user enters q, quit game
         elif choice == 'q':
             print('Exiting...')
@@ -162,22 +146,22 @@ while True:
             # if the room has that item
             if item[chosen_item] in current_room.room_items:
                 current_room.remove_item(item[chosen_item])
-                player_1.add_to_inventory(item[chosen_item])
+                player.add_to_inventory(item[chosen_item])
                 item[chosen_item].on_take()
             else:
                 print(no_item)
     
         elif action == 'drop':
             # if the player has that item
-            if item[chosen_item] in player_1.inventory:
+            if item[chosen_item] in player.inventory:
                 current_room.add_item(item[chosen_item])
-                player_1.remove_from_inventory(item[chosen_item])
+                player.remove_from_inventory(item[chosen_item])
                 item[chosen_item].on_drop()
             else:
                 print(no_item)
     # print player inventory
     elif choice == 'i' or choice == 'inventory':
-        player_inventory()
+        player.player_inventory()
     # invalid move
     else:
         print('Invalid move, expected n, s, e or w')

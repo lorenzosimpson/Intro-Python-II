@@ -17,3 +17,8 @@ class Room:
 
     def remove_item(self, item):
         self.room_items.remove(item)
+
+    def print_room_items(self):
+        print('This room has the following items for you to take:')
+        for i in self.room_items:
+            print(i)
